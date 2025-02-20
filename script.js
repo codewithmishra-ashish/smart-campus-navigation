@@ -5,8 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
   map = L.map("map").setView([23.2149, 77.3919], 15);
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: "© OpenStreetMap contributors",
   }).addTo(map);
 
   const searchInput = document.getElementById("search-input");
@@ -24,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
             li.textContent = location.name;
             li.addEventListener("click", () => {
               addMarker(location);
-              showLocationDetails(location);
               suggestionsList.innerHTML = "";
               searchInput.value = location.name;
             });
@@ -57,14 +55,4 @@ function addMarker(location) {
 function clearMarkers() {
   markers.forEach((marker) => map.removeLayer(marker));
   markers = [];
-}
-
-function showLocationDetails(location) {
-  const detailsDiv = document.getElementById("location-details");
-  detailsDiv.innerHTML = `
-    <h3>${location.name}</h3>
-    <p><strong>Category:</strong> ${location.category}</p>
-    <p>${location.description}</p>
-    <p><strong>Coordinates:</strong> ${location.latitude}, ${location.longitude}</p>
-  `;
 }
