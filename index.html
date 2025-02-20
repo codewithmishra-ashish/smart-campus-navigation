@@ -9,29 +9,37 @@
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
   </head>
   <body>
-    <div class="container">
-      <div class="search-container">
+    <nav class="navbar">
+      <div class="nav-logo">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/4/4f/Maulana_Azad_National_Institute_of_Technology_Logo.png"
+          alt="MANIT Logo"
+        />
+      </div>
+      <div class="nav-search">
         <input
           type="text"
           id="search-input"
           placeholder="Search locations..."
+          autocomplete="off"
         />
-        <select id="category-filter">
-          <option value="all">All Categories</option>
-          <option value="Departments">Departments</option>
-          <option value="Food">Food</option>
-          <option value="Building">Buildings</option>
-          <option value="Place">Places</option>
-        </select>
+        <ul id="search-suggestions"></ul>
       </div>
+    </nav>
 
-      <div id="map"></div>
-
+    <div class="container">
+      <div id="map-container">
+        <div id="map"></div>
+      </div>
       <div id="location-info">
         <h2>Location Details</h2>
-        <div id="location-details"></div>
+        <div id="location-details">Select a location to see details here.</div>
       </div>
     </div>
 
