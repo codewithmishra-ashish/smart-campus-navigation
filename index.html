@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MANIT Bhopal Smart Campus Navigation</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="search-container">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Search locations..."
+        />
+        <select id="category-filter">
+          <option value="all">All Categories</option>
+          <option value="Departments">Departments</option>
+          <option value="Food">Food</option>
+          <option value="Building">Buildings</option>
+          <option value="Place">Places</option>
+        </select>
+      </div>
+
+      <div id="map"></div>
+
+      <div id="location-info">
+        <h2>Location Details</h2>
+        <div id="location-details"></div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
