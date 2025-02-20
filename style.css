@@ -4,9 +4,13 @@
   box-sizing: border-box;
 }
 
-body {
+body,
+html {
+  height: 100%;
+  width: 100%;
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
+  overflow: hidden; /* Completely prevent scrollbars */
 }
 
 .navbar {
@@ -15,8 +19,8 @@ body {
   padding: 10px;
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
   position: relative;
-  z-index: 1000; /* Keeps navbar and search suggestions above the map */
 }
 
 .nav-logo img {
@@ -47,7 +51,7 @@ body {
   border-top: none;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 1001; /* Keeps suggestions above map */
+  z-index: 1001;
 }
 
 #search-suggestions li {
@@ -59,11 +63,28 @@ body {
   background-color: #f0f0f0;
 }
 
-#map {
-  height: calc(100vh - 60px);
-  width: calc(100% - 20px);
-  margin: 10px;
+/* Map Box Inside Screen */
+#map-container {
+  position: absolute;
+  top: 70px; /* Height of navbar */
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
   border-radius: 8px;
-  background-color: #000; /* Black background */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden; /* Ensures map stays inside */
+}
+
+#map {
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+  #map-container {
+    top: 70px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+  }
 }
