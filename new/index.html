@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MANIT Navigation System</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="search-container">
+      <h1>MANIT Navigation</h1>
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Search for buildings, departments, facilities..."
+        />
+        <button id="searchButton">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+        </button>
+      </div>
+      <div id="searchResults" class="search-results"></div>
+      <div id="routeInfo" class="route-info" style="display: none">
+        <h3>Route Information</h3>
+        <p id="routeDistance"></p>
+        <p id="routeDuration"></p>
+      </div>
+    </div>
+
+    <div id="map"></div>
+
+    <button id="findPath" class="find-path-btn" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+      Find Path
+    </button>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="locations.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
