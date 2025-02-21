@@ -135,14 +135,15 @@ body {
 
 .route-info {
   position: absolute;
-  top: 85px;
-  right: 20px;
+  top: 90px; /* Slightly below the navbar */
+  left: 20px; /* Positioned on the left side */
   padding: 12px;
   background-color: #2a2a2a;
   border-radius: 8px;
   border: 1px solid #404040;
   color: #ffffff;
   z-index: 999;
+  width: 200px; /* Fixed width for consistency */
 }
 
 .route-info h3 {
@@ -244,4 +245,35 @@ body {
     padding: 8px 12px;
     font-size: 0.875rem;
   }
+
+  .route-info {
+    top: 70px; /* Adjust for smaller navbar height */
+    left: 10px; /* Closer to edge on mobile */
+    width: 150px; /* Smaller width for mobile */
+  }
+}
+
+/* Leaflet Layer Control Styling */
+.leaflet-control-layers {
+  background: #2a2a2a;
+  color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.leaflet-control-layers label {
+  color: #ffffff;
+}
+
+.leaflet-control-layers input[type="radio"] {
+  accent-color: #3b82f6; /* Checkbox/radio color */
+}
+
+.leaflet-control-layers-overlays,
+.leaflet-control-layers-base {
+  padding: 8px;
+}
+
+.leaflet-control-layers-separator {
+  background: #404040;
 }

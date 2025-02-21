@@ -3,14 +3,83 @@ let currentMarker = null;
 let destinationMarker = null;
 let pathLine = null;
 let userLocation = [23.211236, 77.39374]; // Your current location
+let manitLocations = []; // Populated from database
 
-// Initialize the map
+// Define custom red icon for the destination marker after finding path
+const redIcon = L.icon({
+  iconUrl:
+    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
+// Fetch locations from PHP
+async function fetchLocations() {
+  try {
+    const response = await fetch("fetch_locations.php");
+    const data = await response.json();
+    if (data.error) {
+      console.error(data.error);
+      return;
+    }
+    manitLocations = data;
+  } catch (error) {
+    console.error("Error fetching locations:", error);
+  }
+}
+
+// Initialize the map with layer control and restricted zooming
 function initMap() {
-  map = L.map("map").setView(userLocation, 16);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution:
-      '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
+  map = L.map("map", {
+    zoomControl: false, // Disable zoom buttons (+/-)
+    scrollWheelZoom: false, // Disable mouse scroll zooming
+    doubleClickZoom: false, // Disable double-click zooming
+    boxZoom: false, // Disable shift-drag box zoom
+    keyboard: false, // Disable keyboard zoom controls
+    touchZoom: true, // Enable pinch-to-zoom on touch devices
+  }).setView(userLocation, 16);
+
+  // Base layer: OpenStreetMap (Street View)
+  const osmLayer = L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+      attribution:
+        '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }
+  ).addTo(map); // Default layer
+
+  // Satellite layer: Esri World Imagery (No API key required)
+  const satelliteLayer = L.tileLayer(
+    "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    {
+      attribution:
+        "Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community",
+    }
+  );
+
+  // Layer control to toggle between Street and Satellite views
+  const baseLayers = {
+    "Street Map": osmLayer,
+    "Satellite View": satelliteLayer,
+  };
+
+  const layerControl = L.control.layers(baseLayers).addTo(map);
+
+  // Automatically collapse layer control after selection
+  map.on("baselayerchange", function () {
+    // Find the layer control container and collapse it
+    const controlContainer = document.querySelector(".leaflet-control-layers");
+    if (
+      controlContainer &&
+      controlContainer.classList.contains("leaflet-control-layers-expanded")
+    ) {
+      controlContainer.classList.remove("leaflet-control-layers-expanded");
+    }
+  });
 
   // Add marker for current location
   L.marker(userLocation, {
@@ -69,56 +138,42 @@ function displaySearchResults(results) {
 }
 
 function selectLocation(location) {
-  // Clear previous destination marker if exists
   if (destinationMarker) {
     map.removeLayer(destinationMarker);
   }
-
-  // Clear previous path if exists
   if (pathLine) {
     map.removeLayer(pathLine);
   }
-
-  // Hide route info
   document.getElementById("routeInfo").style.display = "none";
 
-  // Add new marker for destination
   destinationMarker = L.marker(location.coordinates)
     .addTo(map)
-    .bindPopup(
-      `
-      <h3>${location.name}</h3>
-      <p>${location.description}</p>
-      `
-    )
+    .bindPopup(`<h3>${location.name}</h3><p>${location.description}</p>`)
     .openPopup();
 
-  // Fit map to show both current location and destination
   const bounds = L.latLngBounds([userLocation, location.coordinates]);
   map.fitBounds(bounds, { padding: [50, 50] });
 
-  // Clear search results and input
   document.getElementById("searchResults").innerHTML = "";
   document.getElementById("searchResults").style.display = "none";
   document.getElementById("searchInput").value = "";
-
-  // Show find path button
   document.getElementById("findPath").style.display = "flex";
 }
 
 async function findPath() {
   if (!destinationMarker) return;
 
-  // Clear previous path if exists
+  destinationMarker.closePopup();
+
+  const destCoords = destinationMarker.getLatLng();
+  map.removeLayer(destinationMarker);
+  destinationMarker = L.marker(destCoords, { icon: redIcon }).addTo(map);
+
   if (pathLine) {
     map.removeLayer(pathLine);
   }
 
-  // Get destination coordinates
-  const destCoords = destinationMarker.getLatLng();
-
   try {
-    // Fetch route from OSRM
     const response = await fetch(
       `https://router.project-osrm.org/route/v1/driving/${userLocation[1]},${userLocation[0]};${destCoords.lng},${destCoords.lat}?overview=full&geometries=geojson`
     );
@@ -134,7 +189,6 @@ async function findPath() {
       coord[0],
     ]);
 
-    // Draw the path
     pathLine = L.polyline(coordinates, {
       color: "#3b82f6",
       weight: 4,
@@ -143,7 +197,6 @@ async function findPath() {
       lineJoin: "round",
     }).addTo(map);
 
-    // Update route information
     const distance = (route.distance / 1000).toFixed(2);
     const duration = Math.round(route.duration / 60);
 
@@ -155,7 +208,6 @@ async function findPath() {
     ).textContent = `Estimated time: ${duration} minutes`;
     document.getElementById("routeInfo").style.display = "block";
 
-    // Fit map to show the entire path
     const bounds = L.latLngBounds(coordinates);
     map.fitBounds(bounds, { padding: [50, 50] });
   } catch (error) {
@@ -165,7 +217,8 @@ async function findPath() {
 }
 
 // Initialize the application
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  await fetchLocations();
   initMap();
   setupSearch();
 });

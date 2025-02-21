@@ -3,144 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MANIT Bhopal Smart Campus Navigation</title>
-
-    <!-- Leaflet CSS -->
+    <title>MANIT Navigation System</title>
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
-
-    <!-- Leaflet Routing Machine CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css"
-    />
-
-    <!-- Font Awesome for Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-
-    <style>
-      /* Styling */
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-        width: 100%;
-      }
-
-      #map-container {
-        height: calc(100vh - 60px);
-      }
-
-      #map {
-        width: 100%;
-        height: 100%;
-      }
-
-      .navbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background-color: #343a40;
-        padding: 10px 20px;
-        color: #fff;
-      }
-
-      .navbar img {
-        height: 40px;
-      }
-
-      .nav-search input {
-        padding: 8px;
-        border-radius: 4px;
-        border: none;
-        width: 250px;
-      }
-
-      #search-suggestions {
-        list-style: none;
-        position: absolute;
-        background-color: #fff;
-        width: 250px;
-        color: black;
-        border: 1px solid #ccc;
-        max-height: 150px;
-        overflow-y: auto;
-        z-index: 1000;
-        margin-top: 5px;
-      }
-
-      #search-suggestions li {
-        padding: 8px;
-        cursor: pointer;
-      }
-
-      #search-suggestions li:hover {
-        background-color: #f0f0f0;
-      }
-
-      /* Find Path Button */
-      #findPathButton {
-        position: absolute;
-        top: 80px;
-        right: 20px;
-        z-index: 1000;
-        padding: 10px 16px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      }
-
-      #findPathButton:hover {
-        background-color: #0056b3;
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
   </head>
-
   <body>
-    <!-- Navbar -->
     <nav class="navbar">
-      <div class="nav-logo">
+      <div class="navbar-brand">
         <img
           src="https://upload.wikimedia.org/wikipedia/en/4/4f/Maulana_Azad_National_Institute_of_Technology_Logo.png"
           alt="MANIT Logo"
+          class="navbar-logo"
         />
+        <h1 class="navbar-title">MANIT Navigation</h1>
       </div>
-
-      <!-- Search Bar -->
-      <div class="nav-search">
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search locations..."
-          autocomplete="off"
-        />
-        <ul id="search-suggestions"></ul>
+      <div class="search-container">
+        <div class="search-box">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search for buildings, departments, facilities..."
+          />
+          <button id="searchButton">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+          </button>
+        </div>
+        <div id="searchResults" class="search-results"></div>
       </div>
+      <div id="routeInfo" class="route-info" style="display: none">
+        <h3>Route Information</h3>
+        <p id="routeDistance"></p>
+        <p id="routeDuration"></p>
+      </div>
+      <button id="findPath" class="find-path-btn" style="display: none">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        Find Path
+      </button>
     </nav>
 
-    <!-- Map Container -->
-    <div id="map-container">
-      <div id="map"></div>
-      <!-- Find Path Button -->
-      <button id="findPathButton">Find Path</button>
-    </div>
+    <div id="map"></div>
 
-    <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-    <!-- Leaflet Routing Machine JS -->
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-
-    <!-- Custom JS -->
     <script src="script.js"></script>
   </body>
 </html>
