@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MANIT Navigation System</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/en/4/4f/Maulana_Azad_National_Institute_of_Technology_Logo.png"
+          alt="MANIT Logo"
+        />
+        <h1>MANIT Navigation</h1>
+      </div>
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search for a location..."
+      />
+      <ul
+        id="search-suggestions"
+        style="
+          list-style: none;
+          border: 1px solid #ccc;
+          max-height: 150px;
+          overflow-y: auto;
+          padding: 0;
+          position: absolute;
+          z-index: 1000;
+        "
+      ></ul>
+    </nav>
+
+    <!-- Map -->
+    <div id="map"></div>
+
+    <!-- Find Path Button -->
+    <button id="findPath" class="find-path-btn" style="display: none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+        <circle cx="12" cy="10" r="3" />
+      </svg>
+      Find Path
+    </button>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

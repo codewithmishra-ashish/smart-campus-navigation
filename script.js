@@ -165,3 +165,8 @@ function findPath(start, end) {
     show: false,
   })
     .on("routesfound", function (e) {
+      const route = e.routes[0];
+      map.fitBounds(route.bounds); // Auto zoom to show the entire path
+    })
+    .addTo(map);
+}
