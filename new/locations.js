@@ -41,4 +41,18 @@ const manitLocations = [
     description: "First year boys accommodation",
     category: "hostel",
   },
+  {
+    id: "jawahar-chowk",
+    name: "Jawahar Chowk",
+    coordinates: [23.231776, 77.394171],
+    description: "Department of Computer Science and Engineering",
+    category: "academic",
+  },
+  {
+    id: "radhapuram",
+    name: "Radhapuram Bus Stand",
+    coordinates: [23.12268, 77.49866],
+    description: "Department of Computer Science and Engineering",
+    category: "academic",
+  },
 ];
