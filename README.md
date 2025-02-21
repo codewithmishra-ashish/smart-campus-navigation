@@ -1,6 +1,6 @@
 # MANIT Navigation System
 
-<img src="manit-navigation.jpeg" alt="MANIT Navigation Screenshot" width="600", height="700>
+![MANIT Navigation Screenshot](manit-navigation.jpeg)
 
 A web-based navigation system for the **Maulana Azad National Institute of Technology (MANIT)** campus in Bhopal, India. This application allows users to search for locations (e.g., academic buildings, hostels, facilities), view them on an interactive map, and find walking/driving routes from their current location to a selected destination. Built with *Leaflet.js*, *PHP*, and *MySQL*, it integrates real-time data from a local database and supports both street and satellite views.
 
